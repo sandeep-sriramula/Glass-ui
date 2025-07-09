@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gradient-to-br from-slate-400 via-gray-200 to-slate-500 min-h-screen;
+    background-attachment: fixed;
+    margin: 0;
+    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.87);
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply backdrop-blur-md bg-white/10 border border-white/20 shadow-xl;
+  }
+  
+  .glass-card {
+    @apply glass rounded-xl p-6;
+  }
+  
+  .glass-button {
+    @apply glass rounded-lg px-6 py-3 hover:bg-white/20 transition-all duration-300 cursor-pointer;
+  }
+  
+  .glass-input {
+    @apply glass rounded-lg px-4 py-3 bg-white/5 border-white/30 focus:border-white/50 focus:outline-none transition-all duration-300;
+  }
+  
+  .glass-nav {
+    @apply glass rounded-full px-8 py-4;
+  }
+  
+  .glass-modal {
+    @apply glass rounded-2xl p-8 max-w-md mx-auto;
+  }
+  
+  /* Enhanced glass effects */
+  .glass-realistic {
+    backdrop-filter: blur(20px) saturate(180%);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.37),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+  }
+  
+  .glass-refraction {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .glass-refraction::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.8s ease;
+  }
+  
+  .glass-refraction:hover::before {
+    left: 100%;
+  }
+}
+
+@layer utilities {
+  .animate-gradient {
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+  }
+  
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+}
