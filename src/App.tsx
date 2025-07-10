@@ -61,7 +61,7 @@ function App() {
               Open Modal
             </GlassButton>
             <GlassButton variant="secondary">
-              Enhanced Glass Effect
+              Liquid Glass
             </GlassButton>
             <GlassButton variant="outline">
               Outline Button
@@ -74,7 +74,7 @@ function App() {
             <h4 className="text-lg font-medium text-white mb-3">Button Comparison</h4>
             <div className="flex flex-wrap gap-4">
               <GlassButton variant="primary">Primary</GlassButton>
-              <GlassButton variant="secondary">Secondary (Enhanced)</GlassButton>
+              <GlassButton variant="secondary">Liquid Glass</GlassButton>
               <GlassButton variant="outline">Outline</GlassButton>
               <GlassRealisticButton>Realistic Glass</GlassRealisticButton>
             </div>

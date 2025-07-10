@@ -60,7 +60,7 @@ export const GlassButton = ({
 }: GlassButtonProps) => {
   const variants = {
     primary: 'glass-button text-white hover:shadow-lg hover:shadow-white/20',
-    secondary: 'backdrop-blur-lg bg-white/5 border border-white/10 text-white/90 hover:text-white relative overflow-hidden rounded-lg px-6 py-3 transition-all duration-300',
+    secondary: 'backdrop-blur-xl bg-white/5 border border-white/10 text-white/90 hover:text-white relative overflow-hidden rounded-lg px-6 py-3 transition-all duration-300',
     outline: 'glass border-2 border-white/40 hover:border-white/60 rounded-lg px-6 py-3 text-white'
   }
 
@@ -75,51 +75,84 @@ export const GlassButton = ({
         'active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed',
         className
       )}
+      style={{
+        filter: variant === 'secondary' ? 'blur(0px)' : undefined,
+      }}
     >
-      {/* Enhanced glass effects for secondary button */}
+      {/* Enhanced liquid glass effects for secondary button */}
       {variant === 'secondary' && (
         <>
-          {/* Inner light refraction */}
+          {/* Liquid glass base with Gaussian blur */}
           <motion.div
-            className="absolute inset-0 bg-gradient-to-br from-white/8 via-transparent to-white/4 rounded-lg"
-            whileHover={{ opacity: 1 }}
-            initial={{ opacity: 0.7 }}
-            transition={{ duration: 0.3 }}
-          />
-          
-          {/* Light streak effect */}
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent rounded-lg opacity-0"
-            whileHover={{ 
-              opacity: 1,
-              x: ['-100%', '100%'],
-            }}
-            transition={{ 
-              opacity: { duration: 0.3 },
-              x: { duration: 0.8, ease: "easeInOut" }
-            }}
-          />
-          
-          {/* Subtle inner glow */}
-          <motion.div
-            className="absolute inset-0 rounded-lg shadow-inner"
+            className="absolute inset-0 rounded-lg"
             style={{
-              boxShadow: 'inset 0 1px 2px rgba(255, 255, 255, 0.1), inset 0 -1px 2px rgba(0, 0, 0, 0.1)'
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(255, 255, 255, 0.08) 100%)',
+              filter: 'blur(0.5px)',
+            }}
+            whileHover={{ 
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.10) 50%, rgba(255, 255, 255, 0.14) 100%)',
+              filter: 'blur(0.8px)',
+            }}
+            transition={{ duration: 0.4 }}
+          />
+
+          {/* Liquid ripple effect */}
+          <motion.div
+            className="absolute inset-0 rounded-lg"
+            style={{
+              background: 'radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 50%), radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.12) 0%, transparent 50%)',
+              filter: 'blur(1px)',
             }}
             whileHover={{
-              boxShadow: 'inset 0 1px 4px rgba(255, 255, 255, 0.2), inset 0 -1px 4px rgba(0, 0, 0, 0.05)'
+              background: 'radial-gradient(circle at 40% 30%, rgba(255, 255, 255, 0.22) 0%, transparent 60%), radial-gradient(circle at 60% 70%, rgba(255, 255, 255, 0.18) 0%, transparent 60%)',
+              filter: 'blur(1.5px)',
             }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
           />
           
-          {/* Outer glow on hover */}
+          {/* Liquid flow animation */}
           <motion.div
-            className="absolute inset-0 rounded-lg opacity-0"
-            whileHover={{ opacity: 1 }}
+            className="absolute inset-0 rounded-lg overflow-hidden"
             style={{
-              boxShadow: '0 0 20px rgba(255, 255, 255, 0.1), 0 0 40px rgba(255, 255, 255, 0.05)'
+              background: 'linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.08) 50%, transparent 60%)',
+              filter: 'blur(0.3px)',
             }}
-            transition={{ duration: 0.3 }}
+            animate={{
+              backgroundPosition: ['0% 0%', '100% 100%'],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+          />
+          
+          {/* Gaussian blur light refraction */}
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-br from-white/6 via-transparent to-white/4 rounded-lg"
+            style={{
+              filter: 'blur(2px)',
+            }}
+            whileHover={{ 
+              opacity: 1,
+              filter: 'blur(3px)',
+            }}
+            initial={{ opacity: 0.8 }}
+            transition={{ duration: 0.4 }}
+          />
+          
+          {/* Liquid edge glow with blur */}
+          <motion.div
+            className="absolute inset-0 rounded-lg"
+            style={{
+              boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.15), inset 0 -1px 3px rgba(0, 0, 0, 0.1)',
+              filter: 'blur(0.2px)',
+            }}
+            whileHover={{
+              boxShadow: 'inset 0 2px 6px rgba(255, 255, 255, 0.25), inset 0 -2px 6px rgba(0, 0, 0, 0.05), 0 0 20px rgba(255, 255, 255, 0.1)',
+              filter: 'blur(0.4px)',
+            }}
+            transition={{ duration: 0.4 }}
           />
         </>
       )}
