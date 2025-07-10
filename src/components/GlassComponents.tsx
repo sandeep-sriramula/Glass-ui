@@ -60,99 +60,57 @@ export const GlassButton = ({
 }: GlassButtonProps) => {
   const variants = {
     primary: 'glass-button text-white hover:shadow-lg hover:shadow-white/20',
-    secondary: 'backdrop-blur-xl bg-white/5 border border-white/10 text-white/90 hover:text-white relative overflow-hidden rounded-lg px-6 py-3 transition-all duration-300',
+    secondary: 'text-white/90 hover:text-white relative overflow-hidden rounded-3xl px-8 py-4 transition-all duration-100',
     outline: 'glass border-2 border-white/40 hover:border-white/60 rounded-lg px-6 py-3 text-white'
   }
 
   return (
     <motion.button
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+      whileHover={{ scale: 1.01, y: -1 }}
+      whileTap={{ scale: 0.99 }}
       onClick={onClick}
       disabled={disabled}
       className={cn(
         variants[variant],
         'active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed',
+        variant === 'secondary' && 'shadow-xl hover:shadow-2xl',
         className
       )}
       style={{
-        filter: variant === 'secondary' ? 'blur(0px)' : undefined,
+        boxShadow: variant === 'secondary' 
+          ? '0 4px 16px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04)'
+          : undefined,
       }}
+      transition={{ duration: 0.1, ease: "easeOut" }}
     >
-      {/* Enhanced liquid glass effects for secondary button */}
+      {/* Ultra-fast convex glass - minimal effects for performance */}
       {variant === 'secondary' && (
         <>
-          {/* Liquid glass base with Gaussian blur */}
-          <motion.div
-            className="absolute inset-0 rounded-lg"
-            style={{
-              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(255, 255, 255, 0.08) 100%)',
-              filter: 'blur(0.5px)',
-            }}
-            whileHover={{ 
-              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.10) 50%, rgba(255, 255, 255, 0.14) 100%)',
-              filter: 'blur(0.8px)',
-            }}
-            transition={{ duration: 0.4 }}
+          {/* Simple glass base */}
+          <div
+            className="absolute inset-0 rounded-3xl overflow-hidden backdrop-blur-xl bg-white/5 border border-white/10"
+            style={{ willChange: 'transform' }}
           />
 
-          {/* Liquid ripple effect */}
+          {/* Single animated highlight */}
           <motion.div
-            className="absolute inset-0 rounded-lg"
+            className="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none"
+            initial={{ opacity: 0.3 }}
+            whileHover={{ opacity: 0.6 }}
+            transition={{ duration: 0.1 }}
             style={{
-              background: 'radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 50%), radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.12) 0%, transparent 50%)',
-              filter: 'blur(1px)',
-            }}
-            whileHover={{
-              background: 'radial-gradient(circle at 40% 30%, rgba(255, 255, 255, 0.22) 0%, transparent 60%), radial-gradient(circle at 60% 70%, rgba(255, 255, 255, 0.18) 0%, transparent 60%)',
-              filter: 'blur(1.5px)',
-            }}
-            transition={{ duration: 0.6, ease: "easeInOut" }}
-          />
-          
-          {/* Liquid flow animation */}
-          <motion.div
-            className="absolute inset-0 rounded-lg overflow-hidden"
-            style={{
-              background: 'linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.08) 50%, transparent 60%)',
-              filter: 'blur(0.3px)',
-            }}
-            animate={{
-              backgroundPosition: ['0% 0%', '100% 100%'],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: "linear"
+              background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, transparent 30%)',
+              willChange: 'opacity',
             }}
           />
-          
-          {/* Gaussian blur light refraction */}
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-br from-white/6 via-transparent to-white/4 rounded-lg"
+
+          {/* Bottom edge reflection */}
+          <div
+            className="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none"
             style={{
-              filter: 'blur(2px)',
+              background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.08) 0%, transparent 15%)',
+              opacity: 0.5,
             }}
-            whileHover={{ 
-              opacity: 1,
-              filter: 'blur(3px)',
-            }}
-            initial={{ opacity: 0.8 }}
-            transition={{ duration: 0.4 }}
-          />
-          
-          {/* Liquid edge glow with blur */}
-          <motion.div
-            className="absolute inset-0 rounded-lg"
-            style={{
-              boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.15), inset 0 -1px 3px rgba(0, 0, 0, 0.1)',
-              filter: 'blur(0.2px)',
-            }}
-            whileHover={{
-              boxShadow: 'inset 0 2px 6px rgba(255, 255, 255, 0.25), inset 0 -2px 6px rgba(0, 0, 0, 0.05), 0 0 20px rgba(255, 255, 255, 0.1)',
-              filter: 'blur(0.4px)',
-            }}
-            transition={{ duration: 0.4 }}
           />
         </>
       )}

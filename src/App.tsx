@@ -61,7 +61,7 @@ function App() {
               Open Modal
             </GlassButton>
             <GlassButton variant="secondary">
-              Liquid Glass
+              Convex Glass
             </GlassButton>
             <GlassButton variant="outline">
               Outline Button
@@ -74,7 +74,7 @@ function App() {
             <h4 className="text-lg font-medium text-white mb-3">Button Comparison</h4>
             <div className="flex flex-wrap gap-4">
               <GlassButton variant="primary">Primary</GlassButton>
-              <GlassButton variant="secondary">Liquid Glass</GlassButton>
+              <GlassButton variant="secondary">Convex Glass</GlassButton>
               <GlassButton variant="outline">Outline</GlassButton>
               <GlassRealisticButton>Realistic Glass</GlassRealisticButton>
             </div>
@@ -192,73 +192,34 @@ function App() {
   ]
 
   return (
-    <div className="min-h-screen p-8">
-      {/* Simplified floating background elements for mobile */}
-      {!isMobile && (
-        <div className="fixed inset-0 overflow-hidden pointer-events-none">
-          <motion.div
-            className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl"
-            animate={{
-              x: [0, 100, 0],
-              y: [0, -50, 0],
-            }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-          />
-          <motion.div
-            className="absolute top-3/4 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"
-            animate={{
-              x: [0, -100, 0],
-              y: [0, 50, 0],
-            }}
-            transition={{
-              duration: 25,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-          />
-          <motion.div
-            className="absolute top-1/2 left-1/2 w-48 h-48 bg-pink-500/20 rounded-full blur-3xl"
-            animate={{
-              scale: [1, 1.2, 1],
-              rotate: [0, 180, 360],
-            }}
-            transition={{
-              duration: 30,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-          />
-        </div>
-      )}
+    <div className="min-h-screen p-8 relative">
+      {/* Static background elements for better glass visibility */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        {/* Simple static color areas */}
+        <div className="absolute top-20 left-20 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl" />
+        <div className="absolute top-40 right-32 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-32 left-1/3 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-20 w-72 h-72 bg-orange-500/20 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 w-48 h-48 bg-green-500/20 rounded-full blur-3xl" />
+      </div>
+      
+      {/* Content overlay */}
+      <div className="relative z-10">
+        {/* Navigation */}
+        <motion.div
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex justify-center mb-8"
+        >
+          <GlassNav items={navItems} />
+        </motion.div>
 
-      {/* Mobile optimized static background */}
-      {isMobile && (
-        <div className="fixed inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-48 h-48 bg-blue-500/10 rounded-full blur-2xl" />
-          <div className="absolute top-3/4 right-1/4 w-64 h-64 bg-purple-500/10 rounded-full blur-2xl" />
-          <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-pink-500/10 rounded-full blur-2xl" />
-        </div>
-      )}
-
-      {/* Navigation */}
-      <motion.div
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="flex justify-center mb-8"
-      >
-        <GlassNav items={navItems} />
-      </motion.div>
-
-      {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="text-center mb-12"
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="text-center mb-12"
       >
         <h1 className="text-5xl font-bold text-white mb-4">
           Glass UI
@@ -351,6 +312,7 @@ function App() {
           </div>
         </div>
       </GlassModal>
+      </div>
     </div>
   )
 }
