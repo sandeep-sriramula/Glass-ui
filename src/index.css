@@ -4,13 +4,13 @@
 
 @layer base {
   body {
-    @apply bg-gradient-to-br from-slate-400 via-gray-200 to-slate-500 min-h-screen;
+    @apply bg-gradient-to-br from-indigo-900 via-blue-800 via-purple-800 via-pink-800 to-rose-900 min-h-screen;
     background-attachment: fixed;
     margin: 0;
     font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
     font-weight: 400;
-    color: rgba(0, 0, 0, 0.87);
+    color: rgba(255, 255, 255, 0.87);
   }
   
   * {

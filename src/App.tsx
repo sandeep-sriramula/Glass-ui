@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { 
   GlassCard, 
@@ -23,7 +23,6 @@ function App() {
   const [progressValue, setProgressValue] = useState(75)
   const [selectValue, setSelectValue] = useState('')
   const [activeTab, setActiveTab] = useState('components')
-  const [gradientIntensity, setGradientIntensity] = useState(50)
 
   const navItems = [
     { label: 'Home', href: '#', active: true },
@@ -181,26 +180,6 @@ function App() {
     }
   ]
 
-  // Calculate gradient colors based on intensity
-  const getGradientColors = (intensity: number) => {
-    const baseIntensity = intensity / 100
-    const fromColor = `hsl(215, ${20 + baseIntensity * 30}%, ${60 + baseIntensity * 20}%)`
-    const viaColor = `hsl(0, 0%, ${85 - baseIntensity * 15}%)`
-    const toColor = `hsl(215, ${15 + baseIntensity * 25}%, ${50 + baseIntensity * 25}%)`
-    return { fromColor, viaColor, toColor }
-  }
-
-  // Apply gradient to body element
-  const applyGradient = (intensity: number) => {
-    const { fromColor, viaColor, toColor } = getGradientColors(intensity)
-    document.body.style.background = `linear-gradient(135deg, ${fromColor} 0%, ${viaColor} 50%, ${toColor} 100%)`
-  }
-
-  // Apply gradient on mount and when intensity changes
-  useEffect(() => {
-    applyGradient(gradientIntensity)
-  }, [gradientIntensity])
-
   return (
     <div className="min-h-screen p-8">
       {/* Floating background elements */}
@@ -269,34 +248,6 @@ function App() {
           Beautiful glass morphism UI components built with React, Framer Motion, and Tailwind CSS.
           Test and explore various glass effects and interactions.
         </p>
-      </motion.div>
-
-      {/* Gradient Control */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-        className="mb-8"
-      >
-        <GlassCard className="max-w-md mx-auto">
-          <div className="text-center">
-            <h3 className="text-lg font-semibold text-white mb-4">Background Gradient Intensity</h3>
-            <div className="flex items-center gap-4">
-              <span className="text-white/60 text-sm">Light</span>
-              <GlassSlider
-                value={gradientIntensity}
-                onChange={setGradientIntensity}
-                min={0}
-                max={100}
-                className="flex-1"
-              />
-              <span className="text-white/60 text-sm">Dark</span>
-            </div>
-            <p className="text-white/50 text-sm mt-2">
-              Adjust the background gradient to better see glass effects
-            </p>
-          </div>
-        </GlassCard>
       </motion.div>
 
       {/* Main Content */}

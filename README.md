@@ -2,9 +2,6 @@
 
 A beautiful collection of glass morphism UI components built with React, TypeScript, Tailwind CSS, and Framer Motion. Perfect for testing and exploring modern glass effects and interactions.
 
-## 🌐 Live Demo
-**[🚀 View Live Demo](https://glass-ui-realistic.netlify.app/)**
-
 ![Glass UI Demo](https://img.shields.io/badge/Demo-Live-brightgreen) ![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue) ![Tailwind](https://img.shields.io/badge/Tailwind-CSS-06B6D4) ![Framer Motion](https://img.shields.io/badge/Framer-Motion-FF0080)
 
 ## ✨ Features
