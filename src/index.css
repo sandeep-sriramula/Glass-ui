@@ -65,9 +65,9 @@
     }
   }
 
-  /* iPhone-specific ultra-minimal styles */
+  /* iPhone-specific ultra-minimal styles - works in both orientations */
   @supports (-webkit-touch-callout: none) {
-    @media (max-width: 480px) and (orientation: portrait) {
+    @media (max-width: 896px) {
       .glass {
         @apply shadow-sm;
         backdrop-filter: none;
