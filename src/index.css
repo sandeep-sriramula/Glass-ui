@@ -16,19 +16,50 @@
   * {
     box-sizing: border-box;
   }
+
+  /* Mobile performance optimizations */
+  @media (max-width: 768px) {
+    * {
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+    }
+    
+    body {
+      background-attachment: scroll; /* Better performance on mobile */
+    }
+  }
 }
 
 @layer components {
   .glass {
     @apply backdrop-blur-md bg-white/10 border border-white/20 shadow-xl;
   }
-  
-  .glass-card {
-    @apply glass rounded-xl p-6;
+
+  /* Mobile-optimized glass styles */
+  @media (max-width: 768px) {
+    .glass {
+      @apply backdrop-blur-sm bg-white/5 shadow-lg;
+    }
+    
+    .glass-card {
+      @apply glass rounded-xl p-4; /* Smaller padding on mobile */
+    }
+    
+    .glass-button {
+      @apply glass rounded-lg px-4 py-2 hover:bg-white/10 transition-all duration-200 cursor-pointer;
+    }
   }
   
-  .glass-button {
-    @apply glass rounded-lg px-6 py-3 hover:bg-white/20 transition-all duration-300 cursor-pointer;
+  @media (min-width: 769px) {
+    .glass-card {
+      @apply glass rounded-xl p-6;
+    }
+    
+    .glass-button {
+      @apply glass rounded-lg px-6 py-3 hover:bg-white/20 transition-all duration-300 cursor-pointer;
+    }
   }
   
   .glass-input {
@@ -42,36 +73,19 @@
   .glass-modal {
     @apply glass rounded-2xl p-8 max-w-md mx-auto;
   }
-  
-  /* Enhanced glass effects */
+
+  /* Performance optimizations */
   .glass-realistic {
     backdrop-filter: blur(20px) saturate(180%);
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
     border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: 
-      0 8px 32px rgba(0, 0, 0, 0.37),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+    will-change: transform; /* Optimize for animations */
   }
-  
-  .glass-refraction {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .glass-refraction::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-    transition: left 0.8s ease;
-  }
-  
-  .glass-refraction:hover::before {
-    left: 100%;
+
+  @media (max-width: 768px) {
+    .glass-realistic {
+      backdrop-filter: blur(8px) saturate(150%);
+    }
   }
 }
 

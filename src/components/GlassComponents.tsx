@@ -1,5 +1,23 @@
 import { motion } from 'framer-motion'
 import { cn } from '../lib/utils'
+import { useState, useEffect } from 'react'
+
+// Custom hook for mobile detection
+const useMobile = () => {
+  const [isMobile, setIsMobile] = useState(false)
+  
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+  
+  return isMobile
+}
 
 interface GlassCardProps {
   children: React.ReactNode
@@ -234,64 +252,78 @@ export const GlassRealisticButton = ({
   className, 
   disabled = false 
 }: GlassRealisticButtonProps) => {
+  const mobile = useMobile()
+  
   return (
     <motion.button
-      whileHover={{ scale: 1.02, y: -1 }}
+      whileHover={mobile ? {} : { scale: 1.02, y: -1 }}
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
       disabled={disabled}
       className={cn(
         'relative group overflow-hidden rounded-3xl px-8 py-4 cursor-pointer',
-        'backdrop-blur-xl bg-white/3 hover:bg-white/6',
+        mobile ? 'backdrop-blur-md bg-white/5' : 'backdrop-blur-xl bg-white/3 hover:bg-white/6',
         'border border-white/10 hover:border-white/20',
-        'shadow-xl hover:shadow-2xl',
+        mobile ? 'shadow-lg' : 'shadow-xl hover:shadow-2xl',
         'text-gray-800 hover:text-gray-700',
         'transition-all duration-300 ease-out',
         'disabled:opacity-50 disabled:cursor-not-allowed',
         className
       )}
       style={{
-        boxShadow: `
-          0 8px 32px rgba(0, 0, 0, 0.15),
-          inset 0 1px 0 rgba(255, 255, 255, 0.2)
-        `
+        boxShadow: mobile 
+          ? '0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.15)'
+          : `0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2)`,
+        willChange: 'transform'
       }}
     >
-      {/* Uniform glass surface */}
-      <motion.div
-        className="absolute inset-0 rounded-3xl"
-        style={{
-          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%)',
-        }}
-        whileHover={{
-          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.05) 100%)',
-        }}
-        transition={{ duration: 0.3 }}
-      />
-      
-      {/* Enhanced edge highlight with more reflection */}
-      <motion.div
-        className="absolute inset-0 rounded-3xl"
-        style={{
-          background: 'radial-gradient(ellipse at top, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 40%, transparent 70%)',
-        }}
-        whileHover={{
-          background: 'radial-gradient(ellipse at top, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.12) 45%, transparent 75%)',
-        }}
-        transition={{ duration: 0.3 }}
-      />
-      
-      {/* Additional edge reflection */}
-      <motion.div
-        className="absolute inset-0 rounded-3xl"
-        style={{
-          background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.12) 0%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.08) 100%)',
-        }}
-        whileHover={{
-          background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.18) 0%, transparent 30%, transparent 70%, rgba(255, 255, 255, 0.12) 100%)',
-        }}
-        transition={{ duration: 0.3 }}
-      />
+      {/* Simplified glass surface for mobile */}
+      {mobile ? (
+        <div
+          className="absolute inset-0 rounded-3xl"
+          style={{
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%)',
+          }}
+        />
+      ) : (
+        <>
+          {/* Uniform glass surface */}
+          <motion.div
+            className="absolute inset-0 rounded-3xl"
+            style={{
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%)',
+            }}
+            whileHover={{
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.05) 100%)',
+            }}
+            transition={{ duration: 0.3 }}
+          />
+          
+          {/* Enhanced edge highlight with more reflection */}
+          <motion.div
+            className="absolute inset-0 rounded-3xl"
+            style={{
+              background: 'radial-gradient(ellipse at top, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 40%, transparent 70%)',
+            }}
+            whileHover={{
+              background: 'radial-gradient(ellipse at top, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.12) 45%, transparent 75%)',
+            }}
+            transition={{ duration: 0.3 }}
+          />
+          
+          {/* Additional edge reflection */}
+          <motion.div
+            className="absolute inset-0 rounded-3xl"
+            style={{
+              background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.12) 0%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.08) 100%)',
+            }}
+            whileHover={{
+              background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.18) 0%, transparent 30%, transparent 70%, rgba(255, 255, 255, 0.12) 100%)',
+            }}
+            transition={{ duration: 0.3 }}
+          />
+        </>
+      )}
       
       {/* Content */}
       <motion.span 
