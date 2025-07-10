@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { 
   GlassCard, 
@@ -23,17 +23,6 @@ function App() {
   const [progressValue, setProgressValue] = useState(75)
   const [selectValue, setSelectValue] = useState('')
   const [activeTab, setActiveTab] = useState('components')
-  const [isMobile, setIsMobile] = useState(false)
-
-  // Mobile detection
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
-    }
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
-  }, [])
 
   const navItems = [
     { label: 'Home', href: '#', active: true },
