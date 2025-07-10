@@ -47,7 +47,9 @@
   /* Mobile-optimized glass styles */
   @media (max-width: 768px) {
     .glass {
-      @apply backdrop-blur-sm bg-white/5 shadow-lg;
+      @apply backdrop-blur-sm shadow-lg;
+      background-color: rgba(255, 255, 255, 0.03);
+      border-color: rgba(255, 255, 255, 0.15);
     }
     
     .glass-card {
@@ -55,7 +57,33 @@
     }
     
     .glass-button {
-      @apply glass rounded-lg px-4 py-2 hover:bg-white/10 transition-all duration-200 cursor-pointer;
+      @apply glass rounded-lg px-4 py-2 transition-all duration-200 cursor-pointer;
+    }
+    
+    .glass-button:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+  }
+
+  /* iPhone-specific ultra-minimal styles */
+  @supports (-webkit-touch-callout: none) {
+    @media (max-width: 480px) and (orientation: portrait) {
+      .glass {
+        @apply shadow-sm;
+        backdrop-filter: none;
+        background-color: rgba(255, 255, 255, 0.01);
+        border-color: rgba(255, 255, 255, 0.05);
+      }
+      
+      .glass-button {
+        @apply border;
+        background-color: rgba(255, 255, 255, 0.02);
+        border-color: rgba(255, 255, 255, 0.08);
+      }
+      
+      .glass-button:hover {
+        background-color: rgba(255, 255, 255, 0.03);
+      }
     }
   }
   
@@ -65,12 +93,22 @@
     }
     
     .glass-button {
-      @apply glass rounded-lg px-6 py-3 hover:bg-white/20 transition-all duration-300 cursor-pointer;
+      @apply glass rounded-lg px-6 py-3 transition-all duration-300 cursor-pointer;
+    }
+    
+    .glass-button:hover {
+      background-color: rgba(255, 255, 255, 0.2);
     }
   }
   
   .glass-input {
-    @apply glass rounded-lg px-4 py-3 bg-white/5 border-white/30 focus:border-white/50 focus:outline-none transition-all duration-300;
+    @apply glass rounded-lg px-4 py-3 focus:outline-none transition-all duration-300;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+  
+  .glass-input:focus {
+    border-color: rgba(255, 255, 255, 0.5);
   }
   
   .glass-nav {

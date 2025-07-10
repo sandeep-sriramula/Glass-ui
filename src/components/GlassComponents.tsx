@@ -2,13 +2,17 @@ import { motion } from 'framer-motion'
 import { cn } from '../lib/utils'
 import { useState, useEffect } from 'react'
 
-// Custom hook for mobile detection
+// Custom hook for mobile detection with iPhone-specific handling
 const useMobile = () => {
   const [isMobile, setIsMobile] = useState(false)
+  const [isIPhone, setIsIPhone] = useState(false)
   
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
+      const mobile = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+      const iPhone = /iPhone/i.test(navigator.userAgent)
+      setIsMobile(mobile)
+      setIsIPhone(iPhone)
     }
     
     checkMobile()
@@ -16,7 +20,7 @@ const useMobile = () => {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
   
-  return isMobile
+  return { isMobile, isIPhone }
 }
 
 interface GlassCardProps {
@@ -58,10 +62,16 @@ export const GlassButton = ({
   className, 
   disabled = false 
 }: GlassButtonProps) => {
+  const { isMobile, isIPhone } = useMobile()
+  
   const variants = {
     primary: 'glass-button text-white hover:shadow-lg hover:shadow-white/20',
     secondary: 'text-white/90 hover:text-white relative overflow-hidden rounded-3xl px-8 py-4 transition-all duration-100',
-    outline: 'glass border-2 border-white/40 hover:border-white/60 rounded-lg px-6 py-3 text-white'
+    outline: isIPhone 
+      ? 'backdrop-blur-none border rounded-lg px-6 py-3 text-white transition-all duration-200'
+      : isMobile 
+      ? 'backdrop-blur-sm border rounded-lg px-6 py-3 text-white transition-all duration-200'
+      : 'glass border-2 border-white/40 hover:border-white/60 rounded-lg px-6 py-3 text-white'
   }
 
   return (
@@ -80,6 +90,14 @@ export const GlassButton = ({
         boxShadow: variant === 'secondary' 
           ? '0 4px 16px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04)'
           : undefined,
+        ...(variant === 'outline' && isIPhone ? {
+          backgroundColor: 'rgba(255, 255, 255, 0.01)',
+          borderColor: 'rgba(255, 255, 255, 0.08)',
+        } : {}),
+        ...(variant === 'outline' && isMobile && !isIPhone ? {
+          backgroundColor: 'rgba(255, 255, 255, 0.02)',
+          borderColor: 'rgba(255, 255, 255, 0.10)',
+        } : {}),
       }}
       transition={{ duration: 0.1, ease: "easeOut" }}
     >
@@ -243,40 +261,63 @@ export const GlassRealisticButton = ({
   className, 
   disabled = false 
 }: GlassRealisticButtonProps) => {
-  const mobile = useMobile()
+  const { isMobile, isIPhone } = useMobile()
   
   return (
     <motion.button
-      whileHover={mobile ? {} : { scale: 1.02, y: -1 }}
+      whileHover={isMobile ? {} : { scale: 1.02, y: -1 }}
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
       disabled={disabled}
       className={cn(
         'relative group overflow-hidden rounded-3xl px-8 py-4 cursor-pointer',
-        mobile ? 'backdrop-blur-md bg-white/5' : 'backdrop-blur-xl bg-white/3 hover:bg-white/6',
-        'border border-white/10 hover:border-white/20',
-        mobile ? 'shadow-lg' : 'shadow-xl hover:shadow-2xl',
+        isIPhone ? 'border' : 
+        isMobile ? 'backdrop-blur-sm border' : 
+        'backdrop-blur-xl border hover:border-white/20',
+        isMobile ? 'shadow-md' : 'shadow-xl hover:shadow-2xl',
         'text-gray-800 hover:text-gray-700',
         'transition-all duration-300 ease-out',
         'disabled:opacity-50 disabled:cursor-not-allowed',
         className
       )}
       style={{
-        boxShadow: mobile 
+        backgroundColor: isIPhone 
+          ? 'rgba(255, 255, 255, 0.02)'
+          : isMobile 
+          ? 'rgba(255, 255, 255, 0.03)'
+          : 'rgba(255, 255, 255, 0.03)',
+        borderColor: isIPhone 
+          ? 'rgba(255, 255, 255, 0.10)'
+          : isMobile 
+          ? 'rgba(255, 255, 255, 0.08)'
+          : 'rgba(255, 255, 255, 0.10)',
+        boxShadow: isIPhone 
+          ? '0 2px 8px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.08)'
+          : isMobile 
           ? '0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.15)'
           : `0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2)`,
         willChange: 'transform'
       }}
     >
       {/* Simplified glass surface for mobile */}
-      {mobile ? (
+      {isIPhone ? (
+        // Ultra-minimal effects for iPhone
         <div
           className="absolute inset-0 rounded-3xl"
           style={{
-            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%)',
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.01) 100%)',
+          }}
+        />
+      ) : isMobile ? (
+        // Reduced effects for other mobile devices
+        <div
+          className="absolute inset-0 rounded-3xl"
+          style={{
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)',
           }}
         />
       ) : (
+        // Full effects for desktop
         <>
           {/* Uniform glass surface */}
           <motion.div
